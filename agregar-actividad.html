@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Agregar actividad</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+<body>
+    <header>
+        <h1>Formulario para agregar su actividad</h1>
+    </header>
+
+    <div id="error-messages">
+        <ul id="error-list"></ul>
+    </div>
+      
+    <div id="val-box">
+        <p id="val-msg"></p>
+    </div>
+
+    <form name="myForm" method="post" enctype="multipart/form-data">
+
+    <!-- Sección 1: Lugar de la actividad -->
+    <section>
+        <div class="form-section active" id="section1">
+            <h2>Ubicación de la actividad</h2>
+
+            <label for="select-region">Región <span class="obligatorio">*</span></label>
+            <select name="select-region" id="select-region" required class="input-uniforme">
+                <option value="">Seleccione una región</option>
+            </select><br><br>
+
+            <label for="select-comuna">Comuna <span class="obligatorio">*</span></label>
+            <select name="select-comuna" id="select-comuna" required class="input-uniforme">
+                <option value="">Seleccione una comuna</option>
+            </select><br><br>
+
+            <label for="sector">Sector</label>
+            <input type="text" id="sector" name="sector" maxlength="100"><br><br>
+
+            <button type="button" id="btn-siguiente-region">Siguiente</button><br>
+            <button onclick="window.location.href='index.html'">Volver a la portada</button>
+        </div>
+
+        <!-- Sección 2: Datos del organizador -->
+        <div class="form-section" id="section2">
+            <h2>Datos del organizador</h2>
+
+            <label for="nombre">Nombre
+                <span class="obligatorio">*</span>
+            </label>
+            <input type="text" name="nombre" id="nombre" maxlength="200" required><br><br>
+
+            <label for="email">Email 
+                <span class="obligatorio">*</span></label>
+            <input type="email" name="email" id="email" maxlength="100" required><br><br>
+
+            <label for="phone">Celular</label>
+            <input type="tel" name="phone" id="phone" placeholder="+569.12345678"><br><br>
+
+            <label>Redes sociales para contactarlo (seleccione máximo 5)</label><br>
+            <input type="checkbox" name="whatsapp" onclick="revisaCheck(this);"> Whatsapp
+            <input id="whatsapp" type="text" name="whatsapp-id" style="display:none;" placeholder="+569.12345678"> <br>
+
+            <input type="checkbox" name="telegram" onclick="revisaCheck(this);"> Telegram
+            <input id="telegram" type="text" name="telegram-id" style="display:none;" placeholder="@ o URL"> <br>
+
+            <input type="checkbox" name="x" onclick="revisaCheck(this);"> X
+            <input id="x" type="text" name="x-id" style="display:none;" placeholder="@ o URL"> <br>
+
+            <input type="checkbox" name="instagram" onclick="revisaCheck(this);"> Instagram
+            <input id="instagram" type="text" name="instagram-id" style="display:none;" placeholder="@ o URL"> <br>
+
+            <input type="checkbox" name="tiktok" onclick="revisaCheck(this);"> TikTok
+            <input id="tiktok" type="text" name="tiktok-id" style="display:none;" placeholder="@ o URL"> <br>
+
+            <input type="checkbox" name="otra" onclick="revisaCheck(this);"> Otra
+            <input id="red" type="text" name="red" style="display:none;" placeholder="Red social"> <br>
+            <input id="usuario" type="text" name="usuario" style="display:none;" placeholder="@ o URL"> <br>
+
+            <button type="button" id="btn-siguiente-nombre">Siguiente</button><br>
+            <button type="button" onclick="prevSection(2)">Anterior</button>
+        </div>
+
+        <!-- Sección 3: Información de la Actividad -->
+        <div class="form-section" id="section3">
+            <h2>Detalles de la actividad</h2>
+
+            <label for="inicio">Día y hora de inicio: 
+                <span class="obligatorio">*</span></label>
+            <input type="datetime-local" id="inicio" name="inicio" required><br><br>
+
+            <label for="termino">Día y hora de término:</label>
+            <input type="datetime-local" id="termino" name="termino"><br><br>
+
+            <label for="descripcion">Descripción:</label><br><br>
+            <textarea id="descripcion" name="descripcion" cols="50" rows="10"></textarea><br><br>
+
+            <label>Tema (seleccione al menos 1): 
+                <span class="obligatorio">*</span>
+            </label><br>
+            <div id="temas">
+                <input type="checkbox" name="tema" value="musica"> Música <br>
+                <input type="checkbox" name="tema" value="deporte"> Deporte <br>
+                <input type="checkbox" name="tema" value="ciencias"> Ciencias <br>
+                <input type="checkbox" name="tema" value="religion"> Religión <br>
+                <input type="checkbox" name="tema" value="politica"> Política <br>
+                <input type="checkbox" name="tema" value="tecnologia"> Tecnología <br>
+                <input type="checkbox" name="tema" value="juegos"> Juegos <br>
+                <input type="checkbox" name="tema" value="baile"> Baile <br>
+                <input type="checkbox" name="tema" value="comida"> Comida <br>
+                <input type="checkbox" name="otro" onclick="revisaCheck(this);"> Otro
+                <input id="otro" type="text" name="otro-id" style="display:none;" placeholder="Ingrese su tema"> <br>
+            </div>
+
+            <div id="otroTemaDiv" style="display:none;">
+                <label for="otroTema">Especifique el tema:
+                    <span class="obligatorio">*</span>
+                </label>
+                <input type="text" id="otroTema" name="otroTema" minlength="3" maxlength="15">
+            </div><br>
+
+            <label for="files">Foto(s) de la actividad (agregue al menos 1): <span class="obligatorio">*</span></label><br>
+            <div id="fotoPrincipal" style="display: flex; align-items: center; gap: 10px;">
+                <input type="file" name="foto" id="files" accept="image/*,.pdf" required>
+                <button type="button" onclick="addFoto()" class="small-btn">Agregar otra foto</button>
+            </div>
+            
+            <div id="contenedorFotos"></div><br>
+            
+            <button id="submit-btn" type="button">Agregar esta actividad</button><br>
+            <button type="button" onclick="prevSection(3)">Anterior</button>
+
+        </div>
+    </section>
+    </form>
+
+    <script src="./js/main.js"></script>
+    <script src="./js/datetime.js"></script>
+    <script src="./js/checkBox.js"></script>
+    <script src="./js/validation.js"></script>
+    <script src="./js/selectRegion.js"></script>
+    <script src="./js/agregarImagenes.js"></script>
+    
+</body>
+</html>
