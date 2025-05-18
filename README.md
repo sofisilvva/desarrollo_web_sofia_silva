@@ -2,6 +2,8 @@ Decidí separar lo más posible el proyecto en distintos archivos siguiendo la e
 
 En la carpeta database están todos los archivos relacionados a la base de datos, incluyendo tarea2.sql y region-scomuna.sql dados por el profesor.
 
+Para recibir las imágenes que sube el usuario en la carpeta uploads, tuve que agregar un archivo llamado gitignore para que se subiera esta carpeta vacía a github (recomendación sacada de stackoverflow)
+
 En validations.py se realizan las validaciones de los datos y la verificación de entradas de texto “maliciosas” en los formularios. Además, se hacen verificaciones extra con diferentes funciones de sanitize, ya que si se detecta algo malicioso que se haya filtrado, esto va a ser retirado. Hay diversas regex para controlar las informaciones que se entregan en los inputs.
 
 Utilicé varias lógicas dadas en clases y auxiliares como la mayoría de las funciones de validación de backend dadas en los auxiliares 4 y 5.

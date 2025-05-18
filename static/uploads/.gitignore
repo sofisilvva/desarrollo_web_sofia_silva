@@ -1,0 +1,5 @@
+# Ignorar todo en la carpeta uploads
+*
+# A la excepción del archivo .gitignore
+!.gitignore
+# Documento creado para evitar que no se suba la carpeta vacía
