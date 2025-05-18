@@ -1,3 +1,5 @@
+Para ejecutar de manera correcta la aplicación se debe estar en la carpeta donde está directamente contenido el archivo tarea2-app.py y ejecutar: python .\tarea2-app.py
+
 Decidí separar lo más posible el proyecto en distintos archivos siguiendo la estructura que hizo el auxiliar con el objetivo de dejarlo ordenado y así facilitar la comprensión.
 
 En la carpeta database están todos los archivos relacionados a la base de datos, incluyendo tarea2.sql y region-scomuna.sql dados por el profesor.
