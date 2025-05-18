@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Estadísticas</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Estadísticas de las Actividades</h1>
+    </header>
+
+    <section>
+        <h2>Resumen de actividades</h2>
+
+        <h3 class="tituloGraficos">
+            1. Actividades por día:
+        </h3>
+        <img src="{{ url_for('static', filename='Estadisticas/Graph1.png') }}" class="graficos" alt="Gráfico de línea">
+
+        <h3 class="tituloGraficos">
+            2. Actividades por tipo:
+        </h3>
+        <img src="{{ url_for('static', filename='Estadisticas/Graph2.png') }}" class="graficos" alt="Gráfico de torta">
+
+        <h3 class="tituloGraficos">
+            3. Actividades por horario:
+        </h3>
+        <img src="{{ url_for('static', filename='Estadisticas/Graph3.png') }}" class="graficos" alt="Gráfico de barras">
+
+        <a href="/" class="button-enlace">Volver a la portada</a>
+    </section>
+</body>
+</html>

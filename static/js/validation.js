@@ -115,7 +115,7 @@ function validateTema() {
   });
 
   const otherCheckbox = document.querySelector(
-    'input[type="checkbox"][name="otro"]'
+    'input[type="checkbox"][name="tema"][value="otro"]'
   );
   if (otherCheckbox.checked) {
     otherIsChecked = true;
@@ -139,7 +139,7 @@ function validateSelect(select) {
 
 // Validar las fotos que se están adjuntando (entre 1-5)
 function validateFiles() {
-  const fileInput = document.querySelector('input[type="file"][name="foto"]');
+  const fileInput = document.querySelector('input[type="file"][name="fotos"]');
   const files = fileInput.files;
 
   // Validación del número de archivos

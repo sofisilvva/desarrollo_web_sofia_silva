@@ -15,7 +15,7 @@ function addFoto() {
     // Agregar inputs de agregar archivo
     const newInput = document.createElement("input");
     newInput.type = "file";
-    newInput.name = "foto";
+    newInput.name = "fotos";
     newInput.accept = "image/*,.pdf";
 
     // Eliminar inputs de agregar archivo

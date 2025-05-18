@@ -18,9 +18,8 @@ let instagramInput = document.getElementById("instagram");
 let tiktokInput = document.getElementById("tiktok");
 let redInput = document.getElementById("red");
 let usuarioInput = document.getElementById("usuario");
-let submitBtn = document.getElementById("submit-btn");
 let fotoInput = document.getElementById("files");
-let fileInputs = document.querySelectorAll('input[type="file"][name="foto"]');
+let fileInputs = document.querySelectorAll('input[type="file"][name="fotos"]');
 
 let checkboxNames = [
   "whatsapp",
@@ -39,6 +38,8 @@ let allValid = true;
 
 const btnSiguiente1 = document.getElementById("btn-siguiente-region");
 const btnSiguiente2 = document.getElementById("btn-siguiente-nombre");
+const btnPrevio1 = document.getElementById("btn-previo-nombre");
+const btnPrevio2 = document.getElementById("btn-previo-tema");
 
 btnSiguiente1.addEventListener("click", function () {
   updateSelectValidation();
@@ -52,6 +53,27 @@ btnSiguiente2.addEventListener("click", function () {
   updateRedesSocialesValidation();
   updateInputRedesSocialesValidation();
   nextSection(2);
+});
+
+btnPrevio1.addEventListener("click", function () {
+  prevSection(2);
+
+  // Remover mensajes de error de la sección para evitar de bloquear el usario
+  removeErrorMessageById("redesSociales");
+  removeErrorMessageById("otraRed");
+  removeErrorMessageById("otraRedUsario");
+  removeErrorMessageById("name");
+  removeErrorMessageById("email");
+  removeErrorMessageById("phone");
+});
+
+btnPrevio2.addEventListener("click", function () {
+  prevSection(3);
+  removeErrorMessageById("tema");
+  removeErrorMessageById("otroTema");
+  removeErrorMessageById("cantidadArchivos");
+  removeErrorMessageById("tipoArchivos");
+  removeErrorMessageById("fecha");
 });
 
 // Máximo 5 redes sociales seleccionadas
@@ -100,13 +122,7 @@ function validateForm() {
       submitButton.innerText = "Sí, estoy seguro";
       submitButton.style.marginBottom = "10px";
       submitButton.addEventListener("click", () => {
-        validationMessageElem.innerText =
-        "Hemos recibido su información, muchas gracias y suerte en su actividad"
-        backButton.style.display = "none";
-        submitButton.style.display = "none";
-        validationBox.appendChild(indexButton);
-        // myForm.submit();
-        // Aún no tenemos un backend al cual enviarle los datos
+        myForm.submit();
       });
     }
     if (!backButton) {
@@ -127,7 +143,7 @@ function validateForm() {
       indexButton.id = "indexButton";
       indexButton.innerText = "Volver a la portada";
       indexButton.addEventListener("click", () => {
-        window.location.href='index.html'
+        window.location.href= "/"
       })
     }
 
@@ -136,25 +152,42 @@ function validateForm() {
   }
 }
 
-// Botón enviar formulario
-document.addEventListener("DOMContentLoaded", function () {
-  submitButton.addEventListener("click", function (event) {
-    // Verificando de nuevo cada valor antes de enviar
-    updateNameValidation();
-    updateEmailValidation();
-    updatePhoneValidation();
-    updateRedesSocialesValidation();
-    updateInputRedesSocialesValidation();
-    updateSelectValidation();
-    updateTemaValidation();
-    updateFechaValidation();
-    updateFilesValidation();
+document.getElementById("submit-btn").addEventListener("click", async function() {
+  const form = document.getElementById("actividad-form");
+  const formData = new FormData(myForm);
 
-    if (errorList.children.length === 0) {
-      errorMessages.style.display = "none";
-      validateForm();
-    }
+  // Sacar backend validation error, si existe
+  removeErrorMessageById("backendValidationError");
+
+  // Verificando de nuevo cada valor en el front antes de seguir con el fetch
+  updateNameValidation();
+  updateEmailValidation();
+  updatePhoneValidation();
+  updateRedesSocialesValidation();
+  updateInputRedesSocialesValidation();
+  updateSelectValidation();
+  updateTemaValidation();
+  updateFechaValidation();
+  updateFilesValidation();
+
+  // Validar con el backend usando fetch
+  const response = await fetch("/validar", {
+    method: "POST",
+    body: formData
   });
+
+  const result = await response.json();
+  if (result.ok === true) {
+    // Si la validación es exitosa, enviar el formulario
+    validateForm();
+  } else {
+    // Mostrar mensaje de error
+    addErrorMessage(
+      "El formulario no es válido. Por favor, revise el contenido de los campos: " +
+        result.errores.join(", "),
+      "backendValidationError"
+    )
+  }
 });
 
 // Blur para validar cada input
@@ -226,6 +259,7 @@ function nextSection(currentSection) {
   if (fieldsFilled === countFields) {
     allFilled = true;
     removeErrorMessageById("faltaInfo");
+    removeErrorMessageById("backendValidationError");
   } else {
     allFilled = false;
   }
@@ -263,3 +297,88 @@ window.addEventListener('DOMContentLoaded', () => {
       if (textarea.rows !== 10) textarea.rows = 10;
   }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Helper para poner primera letra mayúscula y resto minúsculas
+  function primeraMayuscula(text) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
+
+  // Capitalizar todas las palabras (Nombre)
+  function capitalizarPalabras(text) {
+    if (!text) return '';
+    return text
+      .toLowerCase()
+      .split(' ')
+      .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+      .join(' ');
+  }
+
+  // Capitalizar la primera letra después de puntos y al inicio (Descripción)
+  function capitalizarDescripcion(text) {
+    if (!text) return '';
+    // Convertir todo a minúsculas primero
+    text = text.toLowerCase();
+
+    // Capitalizar la primera letra de la cadena
+    text = text.charAt(0).toUpperCase() + text.slice(1);
+
+    // Capitalizar letra después de un punto y espacio
+    return text.replace(/(\. +)([a-z])/g, function(match, p1, p2) {
+      return p1 + p2.toUpperCase();
+    });
+  }
+
+  // Input sector - primera letra mayúscula
+  const sectorInput = document.getElementById('sector');
+  if (sectorInput) {
+    sectorInput.addEventListener('blur', () => {
+      sectorInput.value = primeraMayuscula(sectorInput.value.trim());
+    });
+  }
+
+  // Input nombre - capitalizar cada palabra
+  const nombreInput = document.getElementById('nombre');
+  if (nombreInput) {
+    nombreInput.addEventListener('blur', () => {
+      nombreInput.value = capitalizarPalabras(nombreInput.value.trim());
+    });
+  }
+
+  // Input email - todo minúsculas
+  const emailInput = document.getElementById('email');
+  if (emailInput) {
+    emailInput.addEventListener('blur', () => {
+      emailInput.value = emailInput.value.trim().toLowerCase();
+    });
+  }
+
+  // Inputs redes sociales - todo minúsculas, excepto input id=red (la "Otra" red) con primera mayúscula
+  const redesInputs = ['whatsapp', 'telegram', 'x', 'instagram', 'tiktok', 'usuario'];
+  redesInputs.forEach(id => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('blur', () => {
+        input.value = input.value.trim().toLowerCase();
+      });
+    }
+  });
+
+  // Input red (red social "Otra") - primera letra mayúscula resto minúscula
+  const redInput = document.getElementById('red');
+  if (redInput) {
+    redInput.addEventListener('blur', () => {
+      redInput.value = primeraMayuscula(redInput.value.trim());
+    });
+  }
+
+  // Input descripción - primera letra mayúscula, y después de cada punto también
+  const descripcionInput = document.getElementById('descripcion');
+  if (descripcionInput) {
+    descripcionInput.addEventListener('blur', () => {
+      descripcionInput.value = capitalizarDescripcion(descripcionInput.value.trim());
+    });
+  }
+});
+
