@@ -1,17 +1,19 @@
-- Decidí separar lo más posible el proyecto en distintos archivos JavaScript con el objetivo de dejarlo ordenado y así facilitar la comprensión. Esta forma de organización modular me permite mantener el código más claro, reutilizable y escalable.
+Para ejecutar de manera correcta la aplicación se debe estar en la carpeta donde está directamente contenido el archivo tarea3-app.py y ejecutar: python .\tarea3-app.py
 
-- El archivo validation.js contiene dos tipos principales de funciones: aquellas que comienzan con validate y otras que empiezan con update:
+Decidí separar lo más posible el proyecto en distintos archivos siguiendo la estructura que nos ha mostrado el auxiliar con el objetivo de dejarlo ordenado y así facilitar la comprensión.
 
-    - Las funciones validate las escribí con el propósito específico de hacer validaciones y controles de los datos ingresados por el usuario. Cuando se trata de verificaciones simples, retornan solamente true o false. En cambio, cuando los controles son más complejos o múltiples, estas funciones pueden devolver varios valores booleanos. Por eso, me aseguré de revisar bien cómo funciona cada una antes de utilizarlas, para evitar errores en la implementación.
+En la carpeta database están todos los archivos relacionados a la base de datos, incluyendo tarea2.sql, region-comuna.sql y tabla-comentario.sql dados por el profesor.
 
-    - Las funciones update utilizan internamente las funciones validate para realizar los chequeos, y además se encargan de crear y eliminar mensajes de error dinámicamente. Para eso, desarrollé funciones específicas que gestionan visualmente los errores dentro del formulario.
+Para recibir las imágenes que sube el usuario en la carpeta uploads, tuve que agregar un archivo llamado gitignore para que se subiera esta carpeta vacía a github (recomendación sacada de stackoverflow)
 
-- El archivo main.js contiene principalmente todas las funciones de navegación y los addEventListener, del tipo blur, con el objetivo de mejorarla experiencia de navegación permitiendo que el usuario pueda corregir sus datos de forma fluida.
+Los comentarios muestran la fecha completa y la hora.
 
-- Adjunté imágenes de diferentes tamaños dependiendo para lo que se utilizarían, por ejemplo, en la parte de Listado de Actividades, existe una version pequeña (320x240) y otra más grande (800x600) de cada foto, permitiendo que las imágenes carguen de manera más rápida al ingresar.
+Para hacer todos los graficos use flot, con lo viste en clases y usando la documentación dada en el enunciado.
 
-- Utilicé varias lógicas dadas en clases y auxiliares como las funciones para poblar las regiones y comunas y la funcion para gestionar los check box.
+Para el segundo gráfico de estadísticas en el float aparecen los porcentajes de cada actividad con respecto al total de actividades, pero al pasar el mouse por encima de cada pedazo aparece la cantidad de actividades que hay.
 
-- Con respecto al diseño en CSS, crée un diseño de section y de header que utilicé en todas las páginas para hacerlo más estético y llamativo.
+Para el tercer gráfico de estadísticas consideré la mañana de 5:00 - 11:59, el mediodía de 12:00 - 17:59 y la tarde de 18:00 - 04:59
 
-- Probé la tarea en Chrome, Safari y Edge, con diferentes resoluciones (normalmente, todas las páginas deberían funcionar de manera responsiva)
+Probé la tarea en Chrome, Safari y Edge, con diferentes resoluciones (normalmente, todas las páginas deberían funcionar de manera responsiva).
+
+Todos los archivos html y css fueron probados en los links dados, copiando el códgio que aparece al apretar "Ver código fuente de página" cuando la aplicación está corriendo.
