@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Evaluar Actividades Realizadas</title>
+    <link rel="stylesheet" th:href="@{/css/styles-evaluar.css}">
+</head>
+<body>
+
+<header>
+    <h1>Evaluar Actividades Realizadas</h1>
+</header>
+
+<main>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fecha Inicio</th>
+            <th>Sector</th>
+            <th>Nombre</th>
+            <th>Tema</th>
+            <th>Nota</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="actividad : ${actividades}">
+            <td th:text="${actividad.id}"></td>
+            <td th:text="${#temporals.format(actividad.diaHoraInicio, 'yyyy-MM-dd')}"></td>
+            <td th:text="${actividad.sector}"></td>
+            <td th:text="${actividad.nombre}"></td>
+            <td th:text="${actividad.getTemasComoString()}"></td>
+            <!-- Celda para la nota, con un ID único para poder actualizarla -->
+            <td th:id="'nota-cell-' + ${actividad.id}">
+                <span th:if="${actividad.promedioNotas > 0}" th:text="${#numbers.formatDecimal(actividad.promedioNotas, 1, 1)}"></span>
+                <span th:if="${actividad.promedioNotas == 0}">-</span>
+            </td>
+            <td>
+                <!-- Botón para evaluar con el ID de la actividad  -->
+                <button class="evaluar-btn" th:data-id="${actividad.id}">Evaluar</button>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(actividades)}">
+            <td colspan="7" style="text-align: center;">No hay actividades finalizadas para evaluar.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<script th:src="@{/js/evaluar.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
